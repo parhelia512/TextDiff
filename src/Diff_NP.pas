@@ -151,7 +151,11 @@ type
 implementation
 
 uses
-  System.Character;
+{$IFnDEF FPC}
+  System.Character
+{$ELSE}
+  Character
+{$ENDIF};
 
 constructor TNPDiff.Create(aOwner: TComponent);
 begin
@@ -875,7 +879,7 @@ end;
 function TNPDiff.CompareChr(const ch1, ch2: Char): Boolean;
 begin
   if FIgnoreCase then
-    Result := (ch1.ToLower = ch2.ToLower)
+    Result := {$IFnDEF FPC} (ch1.ToLower = ch2.ToLower) {$ELSE}  (ToLower(Ch1) = ToLower(Ch2)) {$ENDIF}
   else
     Result := (ch1 = ch2);
 end;
